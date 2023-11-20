@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, TextInput, Alert } from 'react-native';
 import estilos from './estilos';
-import { atualizaRepositorio } from '../../services/requests/repos';
+import { atualizaRepositorio, deletaRepositorio } from '../../services/requests/repos';
 
 export default function InfoRepositorio({ route, navigation }) {
     const [nome, setNome] = useState(route.params.item.name);
@@ -9,6 +9,7 @@ export default function InfoRepositorio({ route, navigation }) {
 
     const salvar = async () => {
         const resultado = await atualizaRepositorio(route.params.item.postId, nome, data, route.params.item.id)
+
         if (resultado === 'sucesso') {
             navigation.goBack()
             Alert.alert('Repositório atualizado!')
@@ -16,6 +17,18 @@ export default function InfoRepositorio({ route, navigation }) {
         }
 
         Alert.alert('Erro ao atualizar repositório.')
+    }
+
+    const deletar = async () => {
+        const resultado = await deletaRepositorio(route.params.item.id)
+
+        if (resultado === 'sucesso') {
+            navigation.goBack()
+            Alert.alert('Repositório deletado!')
+            return
+        }
+        
+        Alert.alert('Erro ao deletar repositório.')
     }
 
     return (
@@ -43,7 +56,7 @@ export default function InfoRepositorio({ route, navigation }) {
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity 
-                style={[estilos.botao, {backgroundColor: '#DD2B2B', marginTop: 10}]} 
+                style={[estilos.botao, {backgroundColor: '#DD2B2B', marginTop: 10}]} onPress={deletar}
             >
                 <Text style={estilos.textoBotao}>
                     Deletar

@@ -48,3 +48,13 @@ export async function criaRepositorio(postId, nome, data) {
         return 'erro'
     }
 }
+
+export async function deletaRepositorio(id) {
+    try {
+        await api.delete(`/repos/${id}`)
+        return 'sucesso'
+    } catch (error) {
+        console.log(error)
+        return 'erro'
+    }
+}

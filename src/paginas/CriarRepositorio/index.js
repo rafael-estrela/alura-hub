@@ -10,12 +10,14 @@ export default function CriarRepositorio({ route, navigation }) {
 
     const criaRepo = async () => {
         const resultado = await criaRepositorio(route.params.id, nome, data)
+
         if (resultado === 'sucesso') {
-            Alert.alert('Repositório criado!')
             navigation.goBack()
-        } else {
-            Alert.alert('Erro ao criar repositório.')
+            Alert.alert('Repositório criado!')
+            return
         }
+        
+        Alert.alert('Erro ao criar repositório.')
     }
 
     return (
